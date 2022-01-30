@@ -1,4 +1,4 @@
-package com.smart.ui.main
+package com.smart.presentation.main
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle

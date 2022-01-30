@@ -1,8 +1,9 @@
-package com.smart
+package com.smart.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.smart.ui.main.MainFragment
+import com.smart.R
+import com.smart.presentation.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
