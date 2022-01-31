@@ -8,7 +8,7 @@ class GetCharactersUseCaseImpl(
     private val repo: MarvelRepository,
 ) : GetCharactersUseCase() {
 
-    override suspend fun getCharacters(offset: Int): List<ResultsItem> {
+    override suspend fun execute(offset: Int): List<ResultsItem> {
         return repo.getCharacters(offset)
     }
 

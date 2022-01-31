@@ -20,6 +20,9 @@
         android:name="com.smart.presentation.impl.additionalInfoScreen.AdditionalFragment"
         android:label="AdditionalFragment"
         tools:layout="@layout/additional_fragment">
+        <argument
+            android:name="characterId"
+            app:argType="integer" />
 
     </fragment>
 

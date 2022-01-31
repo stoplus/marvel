@@ -14,7 +14,7 @@ class CharactersFragment : BaseFragment<CharacterViewModel, CharactersFragmentBi
         super.onViewCreated(view, savedInstanceState)
 
         binding.main.setOnClickListener {
-            viewModel.openAdditional()
+            viewModel.openAdditional(0)
         }
 
         observeViewModel()

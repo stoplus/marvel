@@ -8,6 +8,6 @@ abstract class CharacterViewModel : ViewModel() {
 
     abstract val listCharacters: LiveData<List<ResultsItem>>
 
-    abstract fun openAdditional()
+    abstract fun openAdditional(characterId: Int)
     abstract fun getCharacters(offset: Int)
 }

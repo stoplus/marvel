@@ -13,15 +13,15 @@ class CharacterViewModelImpl(
     private val charactersUseCase: GetCharactersUseCase,
 ) : CharacterViewModel() {
 
-    override val listCharacters= SingleLiveEvent<List<ResultsItem>>()
+    override val listCharacters = SingleLiveEvent<List<ResultsItem>>()
 
-    override fun openAdditional() {
-        router.navigate(CharactersFragmentDirections.actionCharactersToAdditional())
+    override fun openAdditional(characterId: Int) {
+        router.navigate(CharactersFragmentDirections.actionCharactersToAdditional(characterId))
     }
 
     override fun getCharacters(offset: Int) {
         viewModelScope.launch {
-            val list = charactersUseCase.getCharacters(offset)
+            val list = charactersUseCase.execute(offset)
         }
     }
 }
