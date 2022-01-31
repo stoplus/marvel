@@ -2,23 +2,33 @@ package com.smart.di
 
 import com.google.gson.Gson
 import com.smart.data.api.ApiInterface
+import com.smart.data.impl.MarvelRepositoryImpl
+import com.smart.domain.api.GetCharactersUseCase
+import com.smart.domain.api.MarvelRepository
+import com.smart.domain.impl.GetCharactersUseCaseImpl
+import com.smart.presentation.api.AdditionalViewModel
+import com.smart.presentation.api.CharacterViewModel
+import com.smart.presentation.api.Router
+import com.smart.presentation.impl.RouterImpl
+import com.smart.presentation.impl.additionalInfoScreen.AdditionalViewModelImpl
+import com.smart.presentation.impl.charactersScreen.CharacterViewModelImpl
 import com.smart.utils.*
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 private val viewModelModule = module {
 //    viewModel { EmptyViewModel() }
-//    viewModel<LoginViewModel> { LoginViewModelImpl(get()) }
-//    viewModel<MainViewModel> { MainViewModelImpl(get(), get()) }
+    viewModel<AdditionalViewModel> { AdditionalViewModelImpl() }
+    viewModel<CharacterViewModel> { CharacterViewModelImpl(get(), get()) }
 //    viewModel<ProfileViewModel> { ProfileViewModelImpl(get()) }
 //    viewModel<ProductListViewModel> { ProductListViewModelImpl(get()) }
 //    viewModel<ProductDetailViewModel> { (args: FragmentDetailProductArgs) ->
@@ -56,9 +66,8 @@ private fun createParametersDefault(chain: Interceptor.Chain): Response {
         .addQueryParameter(
             "hash",
 //            MarvelHashGenerate.generate(timeStamp, PRIVATE_KEY, PUBLIC_KEY)
-            "$timeStamp${PRIVATE_KEY}${PUBLIC_KEY}".md5()
+            "$timeStamp$PRIVATE_KEY$PUBLIC_KEY".md5()
         )
-
         .addQueryParameter("ts", timeStamp.toString())
 
     request = request.newBuilder().url(builder.build()).build()
@@ -71,6 +80,7 @@ private val dataModule = module {
 //    single { PreferencesManager(get()) }
 //    single { AuthManager() }
     single { OkHttpClient.Builder() }
+    single<MarvelRepository> { MarvelRepositoryImpl(get()) }
 }
 
 private val apiModule = module {
@@ -81,8 +91,14 @@ private val useCaseModule = module {
 //    factory { ProofUseCase(get()) }
 //    factory<LoginUseCase> { LoginUseCaseImpl(get(), get(), get()) }
 //    factory<ProfileUseCase> { ProfileUseCaseImpl(get()) }
-//    factory<ProductUseCase> { ProductUseCaseImpl(get(), get()) }
+    factory<GetCharactersUseCase> { GetCharactersUseCaseImpl(get()) }
 }
 
+private val presentModule = module { single<Router> { RouterImpl() } }
 
-val appModules = mutableListOf(viewModelModule, networkModule, dataModule, apiModule, useCaseModule)
+val appModules = mutableListOf(viewModelModule,
+    networkModule,
+    dataModule,
+    apiModule,
+    useCaseModule,
+    presentModule)
