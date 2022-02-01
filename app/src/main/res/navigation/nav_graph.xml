@@ -19,7 +19,7 @@
         android:id="@+id/additionalFragment"
         android:name="com.smart.presentation.impl.additionalInfoScreen.AdditionalFragment"
         android:label="AdditionalFragment"
-        tools:layout="@layout/additional_fragment">
+        tools:layout="@layout/details_fragment">
         <argument
             android:name="characterId"
             app:argType="integer" />

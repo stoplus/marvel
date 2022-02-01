@@ -19,6 +19,6 @@ class MarvelRepositoryImpl(
     }
 
     companion object {
-        private const val LIMIT = 40
+        private const val LIMIT = 5
     }
 }
