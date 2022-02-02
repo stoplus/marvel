@@ -8,15 +8,13 @@ import com.smart.domain.api.GetCharactersUseCase
 import com.smart.domain.api.MarvelRepository
 import com.smart.domain.impl.GetCharacterDetailUseCaseImpl
 import com.smart.domain.impl.GetCharactersUseCaseImpl
-import com.smart.presentation.api.AdditionalViewModel
 import com.smart.presentation.api.CharacterViewModel
+import com.smart.presentation.api.DetailsViewModel
 import com.smart.presentation.api.Router
 import com.smart.presentation.impl.RouterImpl
-import com.smart.presentation.impl.additionalInfoScreen.AdditionalFragment
-import com.smart.presentation.impl.additionalInfoScreen.AdditionalFragmentArgs
-import com.smart.presentation.impl.additionalInfoScreen.AdditionalViewModelImpl
+import com.smart.presentation.impl.additionalInfoScreen.DetailsFragmentArgs
+import com.smart.presentation.impl.additionalInfoScreen.DetailsViewModelImpl
 import com.smart.presentation.impl.charactersScreen.CharacterViewModelImpl
-import com.smart.presentation.impl.charactersScreen.CharactersFragment
 import com.smart.utils.*
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
@@ -32,8 +30,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private val viewModelModule = module {
 //    viewModel { EmptyViewModel() }
-    viewModel<AdditionalViewModel> { (args: AdditionalFragmentArgs) ->
-        AdditionalViewModelImpl(get(), get(), args.characterId)
+    viewModel<DetailsViewModel> { (args: DetailsFragmentArgs) ->
+        DetailsViewModelImpl(get(), get(), args.characterId)
     }
     viewModel<CharacterViewModel> { CharacterViewModelImpl(get(), get()) }
 //    viewModel<ProfileViewModel> { ProfileViewModelImpl(get()) }

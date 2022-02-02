@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/additionalFragment"
-        android:name="com.smart.presentation.impl.additionalInfoScreen.AdditionalFragment"
+        android:name="com.smart.presentation.impl.additionalInfoScreen.DetailsFragment"
         android:label="AdditionalFragment"
         tools:layout="@layout/details_fragment">
         <argument

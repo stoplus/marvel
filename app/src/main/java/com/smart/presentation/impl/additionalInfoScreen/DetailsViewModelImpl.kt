@@ -4,15 +4,15 @@ import androidx.lifecycle.viewModelScope
 import com.smart.base.SingleLiveEvent
 import com.smart.data.impl.models.response.characters.ResultsItem
 import com.smart.domain.api.GetCharacterDetailUseCase
-import com.smart.presentation.api.AdditionalViewModel
+import com.smart.presentation.api.DetailsViewModel
 import com.smart.presentation.api.Router
 import kotlinx.coroutines.launch
 
-class AdditionalViewModelImpl(
+class DetailsViewModelImpl(
     private val router: Router,
     private val characterDetailsUseCase: GetCharacterDetailUseCase,
     private val characterId: Int,
-) : AdditionalViewModel() {
+) : DetailsViewModel() {
 
     override val details = SingleLiveEvent<ResultsItem>()
 

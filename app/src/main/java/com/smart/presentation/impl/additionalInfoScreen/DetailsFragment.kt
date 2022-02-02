@@ -5,21 +5,21 @@ import android.view.View
 
 import com.smart.base.BaseFragment
 import com.smart.databinding.DetailsFragmentBinding
-import com.smart.presentation.api.AdditionalViewModel
+import com.smart.presentation.api.DetailsViewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
-class AdditionalFragment: BaseFragment<AdditionalViewModel, DetailsFragmentBinding>() {
+class DetailsFragment : BaseFragment<DetailsViewModel, DetailsFragmentBinding>() {
 
     override fun getParameters(): ParametersDefinition = {
-        parametersOf(AdditionalFragmentArgs.fromBundle(requireArguments()))
+        parametersOf(DetailsFragmentArgs.fromBundle(requireArguments()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observeViewModel()
+        viewModel.getCharacterDetails()
     }
 
     private fun observeViewModel() {

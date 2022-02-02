@@ -13,7 +13,7 @@ interface ApiInterface {
     ): CharacterDataWrapper
 
     @GET("characters/{characterId}")
-    fun getCharacter(
-        @Path("characterId") characterId: Int?,
+    suspend fun getCharacter(
+        @Path("characterId") characterId: Int,
     ): CharacterDataWrapper
 }
