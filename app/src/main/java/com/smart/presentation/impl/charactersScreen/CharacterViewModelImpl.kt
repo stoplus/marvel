@@ -2,11 +2,14 @@ package com.smart.presentation.impl.charactersScreen
 
 import androidx.lifecycle.viewModelScope
 import com.smart.base.SingleLiveEvent
+import com.smart.data.impl.models.response.characters.ResultsItem
 import com.smart.domain.api.GetCharactersUseCase
+import com.smart.domain.impl.model.character.CharacterDomainModel
 import com.smart.presentation.impl.charactersScreen.model.CharacterPresentModel
 import com.smart.presentation.api.CharacterViewModel
 import com.smart.presentation.api.Router
 import com.smart.presentation.impl.charactersScreen.model.mapper.toPresent
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -15,33 +18,58 @@ class CharacterViewModelImpl(
     private val charactersUseCase: GetCharactersUseCase,
 ) : CharacterViewModel() {
 
-    private var presentList = mutableListOf<CharacterPresentModel>()
-
+    private var resultsItemList: List<CharacterDomainModel> = listOf()
     override val listCharacters = SingleLiveEvent<List<CharacterPresentModel>>()
+    override val showError = SingleLiveEvent<Boolean>()
     override val showBottomLoader = SingleLiveEvent<Boolean>()
+    override val isRefreshing = SingleLiveEvent<Boolean>()
+    private var getNewOperationJob: Job? = null
 
-    override fun openAdditional(characterId: Int) {
-        router.navigate(CharactersFragmentDirections.actionCharactersToAdditional(characterId))
-    }
+    override fun getCharacters(offset: Int, resetList: Boolean) {
+        if (getNewOperationJob == null || getNewOperationJob?.isCompleted == true) {
+            getNewOperationJob = viewModelScope.launch {
+                if (resultsItemList.isNotEmpty()) {
+                    showBottomLoader.postValue(true)
+                }
 
-    override fun getCharacters(offset: Int) {
-        viewModelScope.launch {
-            if (presentList.isNotEmpty()) {
-                showBottomLoader.postValue(true)
-            }
-            val list = charactersUseCase.execute(offset)
-            val newPresentList: List<CharacterPresentModel> = list.map {
-                it.toPresent {
-
+                runCatching {
+                    charactersUseCase.execute(offset).let {
+                        if (resetList) {
+                            resultsItemList = listOf()
+                        }
+                        resultsItemList = resultsItemList + it
+                    }
+                }.onSuccess {
+                    isRefreshing.postValue(false)
+                    showError.postValue(false)
+                    listCharacters.postValue(createPresentationList(resultsItemList))
+                }.onFailure {
+                    showBottomLoader.value = false
+                    isRefreshing.postValue(false)
+                    showError.postValue(true)
+                    Timber.w(it)
                 }
             }
-            presentList.addAll(newPresentList)
-            listCharacters.postValue(presentList)
-            Timber.d("sdsds, $list")
         }
     }
 
+    private fun createPresentationList(
+        itemList: List<CharacterDomainModel>,
+    ): MutableList<CharacterPresentModel> {
+        val resultList = mutableListOf<CharacterPresentModel>()
+        itemList.forEach { item ->
+            resultList.add(
+                item.toPresent {
+                    router.navigate(
+                        CharactersFragmentDirections.actionCharactersToAdditional(item.idCharacter)
+                    )
+                }
+            )
+        }
+        return resultList
+    }
+
     override fun loadMore() {
-        getCharacters(presentList.size)
+        getCharacters(resultsItemList.size, false)
     }
 }

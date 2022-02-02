@@ -114,6 +114,6 @@ class CharactersAdapter(private val loadNextPage: () -> Unit) :
     companion object {
         private const val VIEW_TYPE_LOADING = 0
         private const val VIEW_TYPE_CHARACTER = 1
-        private const val ITEM_PREFETCH_COUNT = 4
+        private const val ITEM_PREFETCH_COUNT = 8
     }
 }

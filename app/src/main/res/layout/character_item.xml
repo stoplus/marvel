@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageCharacter"
         app:layout_constraintEnd_toEndOf="@id/imageCharacter"
         app:layout_constraintStart_toStartOf="@id/imageCharacter"
-        tools:text="name Character" />
+        android:text="Name is not available" />
 
     <TextView
         android:id="@+id/description"
@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="@id/imageCharacter"
         app:layout_constraintStart_toStartOf="@id/imageCharacter"
         app:layout_constraintTop_toBottomOf="@id/imageCharacter"
-        tools:text="description Character" />
+        android:text="Description is not available"/>
 
     <Space
         android:layout_width="match_parent"

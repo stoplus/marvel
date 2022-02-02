@@ -15,10 +15,10 @@ class MarvelRepositoryImpl(
 
     override suspend fun getCharacter(id: Int): ResultsItem {
         val dataWrappers = api.getCharacter(id)
-        return dataWrappers.data.results?.get(0)!!
+        return (dataWrappers.data.results ?: emptyList())[0]
     }
 
     companion object {
-        private const val LIMIT = 5
+        private const val LIMIT = 10
     }
 }

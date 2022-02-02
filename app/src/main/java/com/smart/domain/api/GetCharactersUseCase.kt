@@ -1,7 +1,7 @@
 package com.smart.domain.api
 
-import com.smart.data.impl.models.response.characters.ResultsItem
+import com.smart.domain.impl.model.character.CharacterDomainModel
 
 abstract class GetCharactersUseCase {
-    abstract suspend fun execute(offset: Int): List<ResultsItem>
+    abstract suspend fun execute(offset: Int): List<CharacterDomainModel>
 }

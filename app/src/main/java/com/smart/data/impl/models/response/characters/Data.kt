@@ -7,5 +7,5 @@ data class Data(
     @SerializedName("offset") val offset: String = "",
     @SerializedName("limit") val limit: String = "",
     @SerializedName("count") val count: String = "",
-    @SerializedName("results") val results: List<ResultsItem> = emptyList(),
+    @SerializedName("results") val results: List<ResultsItem>?,
 )
