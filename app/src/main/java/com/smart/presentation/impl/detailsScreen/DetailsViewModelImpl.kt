@@ -16,11 +16,13 @@ class DetailsViewModelImpl(
 ) : DetailsViewModel() {
 
     override val details = SingleLiveEvent<DetailsPresentModel>()
+    override val isProgress = SingleLiveEvent<Boolean>()
 
     override fun getCharacterDetails() {
         viewModelScope.launch {
             val characterDetails = characterDetailsUseCase.execute(characterId)
             val present = characterDetails.toPresent()
+            isProgress.postValue(false)
             details.postValue(present)
         }
     }

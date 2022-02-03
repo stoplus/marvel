@@ -35,6 +35,18 @@
             android:textSize="30sp"
             android:visibility="gone" />
 
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/teal_700">
 
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/white" />
+
+        </FrameLayout>
+    </FrameLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

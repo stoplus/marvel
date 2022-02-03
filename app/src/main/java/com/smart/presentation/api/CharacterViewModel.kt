@@ -10,6 +10,7 @@ abstract class CharacterViewModel : ViewModel() {
     abstract val showError: LiveData<Boolean>
     abstract val showBottomLoader: LiveData<Boolean>
     abstract val isRefreshing: LiveData<Boolean>
+    abstract val isProgress: LiveData<Boolean>
 
     abstract fun getCharacters(offset: Int, resetList: Boolean)
     abstract fun loadMore()

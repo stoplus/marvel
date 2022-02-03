@@ -75,6 +75,7 @@ class DetailsFragment : BaseFragment<DetailsViewModel, DetailsFragmentBinding>()
                 }
             }
         }
+        viewModel.isProgress.observe { binding.progressBar.isVisible = it }
     }
 
     private fun getStoriesView(model: DetailsListModel, count: Int): TextView {

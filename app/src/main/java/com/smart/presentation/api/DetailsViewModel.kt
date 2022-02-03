@@ -7,6 +7,7 @@ import com.smart.presentation.impl.detailsScreen.model.DetailsPresentModel
 abstract class DetailsViewModel : ViewModel() {
 
     abstract val details: LiveData<DetailsPresentModel>
+    abstract val isProgress: LiveData<Boolean>
 
     abstract fun getCharacterDetails()
     abstract fun back()

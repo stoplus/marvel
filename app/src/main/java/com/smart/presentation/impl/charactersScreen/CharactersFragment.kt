@@ -51,5 +51,6 @@ class CharactersFragment : BaseFragment<CharacterViewModel, CharactersFragmentBi
         viewModel.showBottomLoader.observe { adapter.loading(it) }
         viewModel.showError.observe { binding.error.isVisible = it }
         viewModel.isRefreshing.observe { binding.swipeRefresh.isRefreshing = it }
+        viewModel.isProgress.observe { binding.progressBar.isVisible = it }
     }
 }

@@ -22,6 +22,7 @@ class CharactersViewModelImpl(
     override val showError = SingleLiveEvent<Boolean>()
     override val showBottomLoader = SingleLiveEvent<Boolean>()
     override val isRefreshing = SingleLiveEvent<Boolean>()
+    override val isProgress = SingleLiveEvent<Boolean>()
     private var getNewOperationJob: Job? = null
 
     override fun getCharacters(offset: Int, resetList: Boolean) {
@@ -39,10 +40,12 @@ class CharactersViewModelImpl(
                         resultsItemList = resultsItemList + it
                     }
                 }.onSuccess {
+                    isProgress.postValue(false)
                     isRefreshing.postValue(false)
                     showError.postValue(false)
                     listCharacters.postValue(createPresentationList(resultsItemList))
                 }.onFailure {
+                    isProgress.postValue(false)
                     showBottomLoader.value = false
                     isRefreshing.postValue(false)
                     showError.postValue(true)
