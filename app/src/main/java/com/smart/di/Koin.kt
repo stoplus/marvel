@@ -29,16 +29,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 private val viewModelModule = module {
-//    viewModel { EmptyViewModel() }
     viewModel<DetailsViewModel> { (args: DetailsFragmentArgs) ->
         DetailsViewModelImpl(get(), get(), args.characterId)
     }
     viewModel<CharacterViewModel> { CharactersViewModelImpl(get(), get()) }
-//    viewModel<ProfileViewModel> { ProfileViewModelImpl(get()) }
-//    viewModel<ProductListViewModel> { ProductListViewModelImpl(get()) }
-//    viewModel<ProductDetailViewModel> { (args: FragmentDetailProductArgs) ->
-//        ProductDetailViewModelImpl(args.product, get(), get())
-//    }
 }
 
 private val networkModule = module {
@@ -46,10 +40,7 @@ private val networkModule = module {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(get<OkHttpClient.Builder>()
-                .addInterceptor(
-                    get<HttpLoggingInterceptor>()
-//                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
+                .addInterceptor(get<HttpLoggingInterceptor>())
                 .addInterceptor { chain -> createParametersDefault(chain) }
                 .build())
             .addConverterFactory(GsonConverterFactory.create(Gson()))
@@ -57,7 +48,7 @@ private val networkModule = module {
             .build()
     }
 
-    factory<HttpLoggingInterceptor> {
+    factory {
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 }
@@ -70,7 +61,6 @@ private fun createParametersDefault(chain: Interceptor.Chain): Response {
     builder.addQueryParameter("apikey", PUBLIC_KEY)
         .addQueryParameter(
             "hash",
-//            MarvelHashGenerate.generate(timeStamp, PRIVATE_KEY, PUBLIC_KEY)
             "$timeStamp$PRIVATE_KEY$PUBLIC_KEY".md5()
         )
         .addQueryParameter("ts", timeStamp.toString())
@@ -81,9 +71,6 @@ private fun createParametersDefault(chain: Interceptor.Chain): Response {
 }
 
 private val dataModule = module {
-//    single { get<Context>().applicationContext.getSharedPreferences(PREF, Context.MODE_PRIVATE) }
-//    single { PreferencesManager(get()) }
-//    single { AuthManager() }
     single { OkHttpClient.Builder() }
     single<MarvelRepository> { MarvelRepositoryImpl(get()) }
 }
@@ -93,8 +80,6 @@ private val apiModule = module {
 }
 
 private val useCaseModule = module {
-//    factory { ProofUseCase(get()) }
-//    factory<LoginUseCase> { LoginUseCaseImpl(get(), get(), get()) }
     factory<GetCharacterDetailUseCase> { GetCharacterDetailUseCaseImpl(get()) }
     factory<GetCharactersUseCase> { GetCharactersUseCaseImpl(get()) }
 }
