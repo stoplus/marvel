@@ -17,13 +17,15 @@
 
     <fragment
         android:id="@+id/additionalFragment"
-        android:name="com.smart.presentation.impl.additionalInfoScreen.DetailsFragment"
+        android:name="com.smart.presentation.impl.detailsScreen.DetailsFragment"
         android:label="AdditionalFragment"
         tools:layout="@layout/details_fragment">
         <argument
             android:name="characterId"
             app:argType="integer" />
-
+        <argument
+            android:name="characterName"
+            app:argType="string" />
     </fragment>
 
 </navigation>

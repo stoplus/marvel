@@ -38,7 +38,7 @@ data class ResultsItemComics(
     @SerializedName("pageCount")
     val pageCount: String = "",
     @SerializedName("thumbnail")
-    val thumbnail: Thumbnail,
+    val thumbnail: Thumbnail?,
     @SerializedName("images")
     val images: List<ImagesItem>?,
     @SerializedName("stories")

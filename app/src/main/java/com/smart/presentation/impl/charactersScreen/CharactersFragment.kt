@@ -3,14 +3,13 @@ package com.smart.presentation.impl.charactersScreen
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-
+import com.smart.R
 import com.smart.base.BaseFragment
 import com.smart.databinding.CharactersFragmentBinding
 import com.smart.presentation.api.CharacterViewModel
-import io.reactivex.subjects.PublishSubject
-import timber.log.Timber
 
 class CharactersFragment : BaseFragment<CharacterViewModel, CharactersFragmentBinding>() {
 
@@ -18,16 +17,18 @@ class CharactersFragment : BaseFragment<CharacterViewModel, CharactersFragmentBi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        observeViewModel()
+        (activity as AppCompatActivity?)?.supportActionBar?.apply {
+            title = getString(R.string.app_name)
+            setDisplayHomeAsUpEnabled(false)
+        }
         initView()
+        observeViewModel()
         if (adapter.currentList.size == 0) {
             viewModel.getCharacters(0, false)
         }
     }
 
     private fun initView() {
-
         binding.recycler.adapter = adapter
         binding.recycler.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {

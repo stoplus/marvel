@@ -6,7 +6,7 @@ data class ResultsItemEvents(
     @SerializedName("next")
     val next: Next,
     @SerializedName("thumbnail")
-    val thumbnail: Thumbnail,
+    val thumbnail: Thumbnail?,
     @SerializedName("stories")
     val stories: Stories,
     @SerializedName("previous")

@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Marvel characters</string>
+
+    <string name="description_not_available">Description is not available</string>
+    <string name="name_not_available">Name is not available</string>
+
+    <string name="title_details">Character details</string>
+    <string name="comics">Comics</string>
+    <string name="events">Events</string>
+    <string name="series">Series</string>
+    <string name="stories">Stories</string>
 </resources>

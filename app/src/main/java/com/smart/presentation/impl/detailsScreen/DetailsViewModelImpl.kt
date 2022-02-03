@@ -1,12 +1,12 @@
-package com.smart.presentation.impl.additionalInfoScreen
+package com.smart.presentation.impl.detailsScreen
 
 import androidx.lifecycle.viewModelScope
 import com.smart.base.SingleLiveEvent
-import com.smart.data.impl.models.response.characters.ResultsItem
 import com.smart.domain.api.GetCharacterDetailUseCase
-import com.smart.domain.impl.model.characterDetails.CharacterDetails
 import com.smart.presentation.api.DetailsViewModel
 import com.smart.presentation.api.Router
+import com.smart.presentation.impl.detailsScreen.model.DetailsPresentModel
+import com.smart.presentation.impl.detailsScreen.model.mapper.toPresent
 import kotlinx.coroutines.launch
 
 class DetailsViewModelImpl(
@@ -15,12 +15,13 @@ class DetailsViewModelImpl(
     private val characterId: Int,
 ) : DetailsViewModel() {
 
-    override val details = SingleLiveEvent<CharacterDetails>()
+    override val details = SingleLiveEvent<DetailsPresentModel>()
 
     override fun getCharacterDetails() {
         viewModelScope.launch {
             val characterDetails = characterDetailsUseCase.execute(characterId)
-            details.postValue(characterDetails)
+            val present = characterDetails.toPresent()
+            details.postValue(present)
         }
     }
 

@@ -12,9 +12,9 @@ import com.smart.presentation.api.CharacterViewModel
 import com.smart.presentation.api.DetailsViewModel
 import com.smart.presentation.api.Router
 import com.smart.presentation.impl.RouterImpl
-import com.smart.presentation.impl.additionalInfoScreen.DetailsFragmentArgs
-import com.smart.presentation.impl.additionalInfoScreen.DetailsViewModelImpl
-import com.smart.presentation.impl.charactersScreen.CharacterViewModelImpl
+import com.smart.presentation.impl.charactersScreen.CharactersViewModelImpl
+import com.smart.presentation.impl.detailsScreen.DetailsFragmentArgs
+import com.smart.presentation.impl.detailsScreen.DetailsViewModelImpl
 import com.smart.utils.*
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
@@ -33,7 +33,7 @@ private val viewModelModule = module {
     viewModel<DetailsViewModel> { (args: DetailsFragmentArgs) ->
         DetailsViewModelImpl(get(), get(), args.characterId)
     }
-    viewModel<CharacterViewModel> { CharacterViewModelImpl(get(), get()) }
+    viewModel<CharacterViewModel> { CharactersViewModelImpl(get(), get()) }
 //    viewModel<ProfileViewModel> { ProfileViewModelImpl(get()) }
 //    viewModel<ProductListViewModel> { ProductListViewModelImpl(get()) }
 //    viewModel<ProductDetailViewModel> { (args: FragmentDetailProductArgs) ->

@@ -101,11 +101,16 @@ class CharactersAdapter(private val loadNextPage: () -> Unit) :
             with(binding) {
                 Glide.with(root.context)
                     .load(item.link)
+                    .fitCenter()
                     .placeholder(R.drawable.marvel)
                     .into(imageCharacter)
 
-                description.text = item.description
-                name.text = item.name
+                if (item.description.isNotEmpty()) {
+                    description.text = item.description
+                }
+                if (item.name.isNotEmpty()) {
+                    name.text = item.name
+                }
                 root.setOnClickListener { item.onClick.invoke() }
             }
         }

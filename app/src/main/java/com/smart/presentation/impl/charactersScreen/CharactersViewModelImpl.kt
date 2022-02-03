@@ -2,18 +2,17 @@ package com.smart.presentation.impl.charactersScreen
 
 import androidx.lifecycle.viewModelScope
 import com.smart.base.SingleLiveEvent
-import com.smart.data.impl.models.response.characters.ResultsItem
 import com.smart.domain.api.GetCharactersUseCase
 import com.smart.domain.impl.model.character.CharacterDomainModel
-import com.smart.presentation.impl.charactersScreen.model.CharacterPresentModel
 import com.smart.presentation.api.CharacterViewModel
 import com.smart.presentation.api.Router
+import com.smart.presentation.impl.charactersScreen.model.CharacterPresentModel
 import com.smart.presentation.impl.charactersScreen.model.mapper.toPresent
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class CharacterViewModelImpl(
+class CharactersViewModelImpl(
     private val router: Router,
     private val charactersUseCase: GetCharactersUseCase,
 ) : CharacterViewModel() {
@@ -61,7 +60,10 @@ class CharacterViewModelImpl(
             resultList.add(
                 item.toPresent {
                     router.navigate(
-                        CharactersFragmentDirections.actionCharactersToAdditional(item.idCharacter)
+                        CharactersFragmentDirections.actionCharactersToAdditional(
+                            item.idCharacter,
+                            item.name
+                        )
                     )
                 }
             )
