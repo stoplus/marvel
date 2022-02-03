@@ -17,8 +17,8 @@ import org.koin.core.parameter.emptyParametersHolder
 import java.lang.reflect.ParameterizedType
 import kotlin.reflect.KClass
 
-abstract class BaseFragment  <VM : ViewModel, VB : ViewBinding> : Fragment() {
-//    constructor() : super()
+abstract class BaseFragment<VM : ViewModel, VB : ViewBinding> : Fragment() {
+    //    constructor() : super()
 //    constructor(@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
     lateinit var viewModel: VM
     lateinit var binding: VB
@@ -42,7 +42,7 @@ abstract class BaseFragment  <VM : ViewModel, VB : ViewBinding> : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         if (contentView == null) {
             contentView = binding.root

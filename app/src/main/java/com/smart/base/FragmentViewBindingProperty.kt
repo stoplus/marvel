@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
 private class FragmentViewBindingProperty<F : Fragment, T : ViewBinding>(
-    viewBinder: (F) -> T
+    viewBinder: (F) -> T,
 ) : ViewBindingProperty<F, T>(viewBinder) {
 
     override fun getLifecycleOwner(thisRef: F) = thisRef.viewLifecycleOwner
@@ -30,7 +30,7 @@ fun <F : Fragment, T : ViewBinding> Fragment.viewBinding(viewBinder: (F) -> T): 
 @JvmName("viewBindingFragment")
 inline fun <F : Fragment, T : ViewBinding> Fragment.viewBinding(
     crossinline viewBindingFactory: (View) -> T,
-    crossinline viewProvider: (F) -> View = Fragment::requireView
+    crossinline viewProvider: (F) -> View = Fragment::requireView,
 ): ViewBindingProperty<F, T> {
     return viewBinding { fragment: F -> viewBindingFactory(viewProvider(fragment)) }
 }

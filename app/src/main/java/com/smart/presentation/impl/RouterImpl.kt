@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.smart.presentation.api.Router
 
-class RouterImpl: Router() {
+class RouterImpl : Router() {
     private var navController: NavController? = null
 
     override fun navigate(navDirections: NavDirections) {

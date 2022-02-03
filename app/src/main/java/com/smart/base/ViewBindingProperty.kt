@@ -9,7 +9,7 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 abstract class ViewBindingProperty<in R : Any, T : ViewBinding>(
-    private val viewBinder: (R) -> T
+    private val viewBinder: (R) -> T,
 ) : ReadOnlyProperty<R, T> {
 
     private var viewBinding: T? = null

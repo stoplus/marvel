@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.smart.presentation.impl.detailsScreen.model.DetailsPresentModel
 
-abstract class DetailsViewModel: ViewModel() {
+abstract class DetailsViewModel : ViewModel() {
 
     abstract val details: LiveData<DetailsPresentModel>
 
