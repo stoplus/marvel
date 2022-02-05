@@ -1,10 +1,10 @@
 package com.smart.data.api
 
-import com.smart.data.impl.models.response.characters.CharacterDataWrapper
-import com.smart.data.impl.models.response.comics.ComicDataWrapper
-import com.smart.data.impl.models.response.events.EventDataWrapper
-import com.smart.data.impl.models.response.series.SeriesDataWrapper
-import com.smart.data.impl.models.response.stories.StoryDataWrapper
+import com.smart.data.impl.network.models.response.characters.CharacterDataWrapper
+import com.smart.data.impl.network.models.response.comics.ComicDataWrapper
+import com.smart.data.impl.network.models.response.events.EventDataWrapper
+import com.smart.data.impl.network.models.response.series.SeriesDataWrapper
+import com.smart.data.impl.network.models.response.stories.StoryDataWrapper
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

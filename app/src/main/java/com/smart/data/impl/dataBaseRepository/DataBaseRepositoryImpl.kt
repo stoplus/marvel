@@ -1,37 +1,28 @@
-package com.smart.data.impl
+package com.smart.data.impl.dataBaseRepository
 
+import com.smart.data.impl.dataBaseRepository.model.CharacterDb
 import com.smart.data.impl.network.models.response.characters.ResultsItemCharacter
 import com.smart.data.impl.network.models.response.comics.ResultsItemComics
 import com.smart.data.impl.network.models.response.events.ResultsItemEvents
 import com.smart.data.impl.network.models.response.series.ResultsItemSeries
 import com.smart.data.impl.network.models.response.stories.ResultsItemStories
 import com.smart.domain.api.DataBaseRepository
-import com.smart.domain.api.MarvelRepository
 import com.smart.domain.impl.model.character.CharacterDomainModel
-import com.smart.utils.Decorator
+import com.smart.domain.impl.model.character.mapper.databaseToDomain
+import com.smart.domain.impl.model.character.mapper.domainToDatabase
 import com.smart.utils.Result
+import com.smart.utils.wrapSafe
+import io.realm.Realm
 
-class MarvelRepositoryImpl(
-    private val networkRepository: MarvelRepository,
-    private val databaseRepository: DataBaseRepository,
-) : MarvelRepository {
+class DataBaseRepositoryImpl : DataBaseRepository {
 
-    private val decorator = Decorator(
-        networkSource = networkRepository,
-        databaseSource = databaseRepository
-    )
-
-    override suspend fun getCharacters(offset: Int): Result<List<CharacterDomainModel>> {
-        return when (val networkUsers = networkRepository.getCharacters(offset)) {
-            is Result.Success -> {
-                databaseRepository.saveCharacters(networkUsers.data)
-                networkUsers
-            }
-            is Result.Error -> {
-                databaseRepository.getCharacters(offset)
-            }
+    override suspend fun getCharacters(offset: Int): Result<List<CharacterDomainModel>> =
+        wrapSafe {
+            val realm: Realm = Realm.getDefaultInstance()
+            val list = realm.copyFromRealm(realm.where(CharacterDb::class.java).findAll())
+            realm.close()
+            list.map { it.databaseToDomain() }
         }
-    }
 
     override suspend fun getCharacter(id: Int): ResultsItemCharacter {
         TODO("Not yet implemented")
@@ -51,5 +42,14 @@ class MarvelRepositoryImpl(
 
     override suspend fun getCharacterStories(id: Int): List<ResultsItemStories> {
         TODO("Not yet implemented")
+    }
+
+    override fun saveCharacters(item: List<CharacterDomainModel>) {
+        val list = item.map { it.domainToDatabase() }
+        val realm: Realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync {
+            it.insertOrUpdate(list)
+        }
+        realm.close()
     }
 }

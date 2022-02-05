@@ -18,8 +18,6 @@ import java.lang.reflect.ParameterizedType
 import kotlin.reflect.KClass
 
 abstract class BaseFragment<VM : ViewModel, VB : ViewBinding> : Fragment() {
-    //    constructor() : super()
-//    constructor(@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
     lateinit var viewModel: VM
     lateinit var binding: VB
     private var contentView: View? = null

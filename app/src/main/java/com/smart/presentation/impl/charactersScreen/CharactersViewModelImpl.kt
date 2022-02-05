@@ -8,6 +8,7 @@ import com.smart.presentation.api.CharacterViewModel
 import com.smart.presentation.api.Router
 import com.smart.presentation.impl.charactersScreen.model.CharacterPresentModel
 import com.smart.presentation.impl.charactersScreen.model.mapper.toPresent
+import com.smart.utils.wrap
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -19,7 +20,7 @@ class CharactersViewModelImpl(
 
     private var resultsItemList: List<CharacterDomainModel> = listOf()
     override val listCharacters = SingleLiveEvent<List<CharacterPresentModel>>()
-    override val showError = SingleLiveEvent<Boolean>()
+    override val showError = SingleLiveEvent<Unit>()
     override val showBottomLoader = SingleLiveEvent<Boolean>()
     override val isRefreshing = SingleLiveEvent<Boolean>()
     override val isProgress = SingleLiveEvent<Boolean>()
@@ -31,28 +32,37 @@ class CharactersViewModelImpl(
                 if (resultsItemList.isNotEmpty()) {
                     showBottomLoader.postValue(true)
                 }
-
-                runCatching {
-                    charactersUseCase.execute(offset).let {
-                        if (resetList) {
-                            resultsItemList = listOf()
-                        }
-                        resultsItemList = resultsItemList + it
-                    }
-                }.onSuccess {
-                    isProgress.postValue(false)
-                    isRefreshing.postValue(false)
-                    showError.postValue(false)
-                    listCharacters.postValue(createPresentationList(resultsItemList))
-                }.onFailure {
-                    isProgress.postValue(false)
-                    showBottomLoader.value = false
-                    isRefreshing.postValue(false)
-                    showError.postValue(true)
-                    Timber.w(it)
-                }
+                charactersUseCase.execute(offset).wrap(
+                    onSuccess = { doSuccess(it, resetList) },
+                    onError = { doError(it) }
+                )
             }
         }
+    }
+
+    private fun doError(throwable: Throwable) {
+        isProgress.postValue(false)
+        showBottomLoader.value = false
+        isRefreshing.postValue(false)
+        showError.postValue(Unit)
+        Timber.e(throwable)
+    }
+
+    private fun doSuccess(
+        it: List<CharacterDomainModel>,
+        resetList: Boolean,
+    ) {
+        if (resetList) {
+            resultsItemList = listOf()
+        }
+        val newList = (resultsItemList + it).distinct()
+        if (newList.size == resultsItemList.size) {
+            showError.postValue(Unit)
+        }
+        resultsItemList = newList
+        isProgress.postValue(false)
+        isRefreshing.postValue(false)
+        listCharacters.postValue(createPresentationList(resultsItemList))
     }
 
     private fun createPresentationList(

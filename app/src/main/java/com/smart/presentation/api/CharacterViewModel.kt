@@ -7,7 +7,7 @@ import com.smart.presentation.impl.charactersScreen.model.CharacterPresentModel
 abstract class CharacterViewModel : ViewModel() {
 
     abstract val listCharacters: LiveData<List<CharacterPresentModel>>
-    abstract val showError: LiveData<Boolean>
+    abstract val showError: LiveData<Unit>
     abstract val showBottomLoader: LiveData<Boolean>
     abstract val isRefreshing: LiveData<Boolean>
     abstract val isProgress: LiveData<Boolean>

@@ -3,6 +3,9 @@ package com.smart.di
 import com.google.gson.Gson
 import com.smart.data.api.ApiInterface
 import com.smart.data.impl.MarvelRepositoryImpl
+import com.smart.data.impl.dataBaseRepository.DataBaseRepositoryImpl
+import com.smart.data.impl.network.NetworkRepositoryImpl
+import com.smart.domain.api.DataBaseRepository
 import com.smart.domain.api.GetCharacterDetailUseCase
 import com.smart.domain.api.GetCharactersUseCase
 import com.smart.domain.api.MarvelRepository
@@ -51,6 +54,7 @@ private val networkModule = module {
     factory {
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
+    single<MarvelRepository>(qualifier = named("Network")) { NetworkRepositoryImpl(get()) }
 }
 
 private fun createParametersDefault(chain: Interceptor.Chain): Response {
@@ -67,12 +71,15 @@ private fun createParametersDefault(chain: Interceptor.Chain): Response {
 
     request = request.newBuilder().url(builder.build()).build()
     return chain.proceed(request)
+}
 
+private val databaseModule = module {
+    single<DataBaseRepository> { DataBaseRepositoryImpl() }
 }
 
 private val dataModule = module {
     single { OkHttpClient.Builder() }
-    single<MarvelRepository> { MarvelRepositoryImpl(get()) }
+    single<MarvelRepository> { MarvelRepositoryImpl(get(qualifier = named("Network")), get()) }
 }
 
 private val apiModule = module {
@@ -88,7 +95,9 @@ private val presentModule = module { single<Router> { RouterImpl() } }
 
 val appModules = mutableListOf(viewModelModule,
     networkModule,
+    databaseModule,
     dataModule,
     apiModule,
     useCaseModule,
-    presentModule)
+    presentModule
+)

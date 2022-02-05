@@ -3,6 +3,7 @@
 
     <string name="description_not_available">Description is not available</string>
     <string name="name_not_available">Name is not available</string>
+    <string name="load_error">Something went wrong, please try again later</string>
 
     <string name="title_details">Character details</string>
     <string name="comics">Comics</string>

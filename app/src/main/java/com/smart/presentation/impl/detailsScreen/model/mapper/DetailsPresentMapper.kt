@@ -1,17 +1,19 @@
 package com.smart.presentation.impl.detailsScreen.model.mapper
 
-import com.smart.data.impl.models.response.comics.ResultsItemComics
-import com.smart.data.impl.models.response.events.ResultsItemEvents
-import com.smart.data.impl.models.response.series.ResultsItemSeries
-import com.smart.data.impl.models.response.stories.ResultsItemStories
+import com.smart.data.impl.network.models.response.comics.ResultsItemComics
+import com.smart.data.impl.network.models.response.events.ResultsItemEvents
+import com.smart.data.impl.network.models.response.series.ResultsItemSeries
+import com.smart.data.impl.network.models.response.stories.ResultsItemStories
 import com.smart.domain.impl.model.characterDetails.CharacterDetails
 import com.smart.presentation.impl.detailsScreen.model.DetailsListModel
 import com.smart.presentation.impl.detailsScreen.model.DetailsPresentModel
 import timber.log.Timber
 
 fun CharacterDetails.toPresent(): DetailsPresentModel = this.let {
+    val path = it.character.thumbnail?.path ?: ""
+    val extension = it.character.thumbnail?.extension ?: ""
     DetailsPresentModel(
-        link = it.character.thumbnail.path + "." + it.character.thumbnail.extension,
+        link = "$path.$extension",
         description = it.character.description,
         comics = it.characterComics.mapNotNull { res ->
             try {
