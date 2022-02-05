@@ -73,10 +73,7 @@ class CharactersViewModelImpl(
             resultList.add(
                 item.toPresent {
                     router.navigate(
-                        CharactersFragmentDirections.actionCharactersToAdditional(
-                            item.idCharacter,
-                            item.name
-                        )
+                        CharactersFragmentDirections.actionCharactersToAdditional(item)
                     )
                 }
             )

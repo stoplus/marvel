@@ -17,11 +17,6 @@ interface ApiInterface {
         @Query("offset") offset: Int,
     ): CharacterDataWrapper
 
-    @GET("characters/{characterId}")
-    suspend fun getCharacter(
-        @Path("characterId") characterId: Int,
-    ): CharacterDataWrapper
-
     @GET("characters/{characterId}/comics")
     suspend fun getCharacterComics(
         @Path("characterId") characterId: Int,

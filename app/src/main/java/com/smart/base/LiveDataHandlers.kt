@@ -8,13 +8,6 @@ import androidx.lifecycle.Observer
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-/**
- * val click = SingleLiveEvent<Any>()
- *
- * click.observe(this, Observer {})
- *
- * click.call()
- * */
 class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val mPending = AtomicBoolean(false)
@@ -26,7 +19,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
                 .w("Multiple observers registered but only one will be notified of changes.")
         }
 
-        super.observe(owner, Observer<T> { t ->
+        super.observe(owner, { t ->
             if (mPending.compareAndSet(true, false)) {
                 observer.onChanged(t)
             }

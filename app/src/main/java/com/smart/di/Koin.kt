@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private val viewModelModule = module {
     viewModel<DetailsViewModel> { (args: DetailsFragmentArgs) ->
-        DetailsViewModelImpl(get(), get(), args.characterId)
+        DetailsViewModelImpl(get(), get(), args.characterDomainModel)
     }
     viewModel<CharacterViewModel> { CharactersViewModelImpl(get(), get()) }
 }

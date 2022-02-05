@@ -1,14 +1,12 @@
 package com.smart.data.impl
 
-import com.smart.data.impl.network.models.response.characters.ResultsItemCharacter
-import com.smart.data.impl.network.models.response.comics.ResultsItemComics
-import com.smart.data.impl.network.models.response.events.ResultsItemEvents
-import com.smart.data.impl.network.models.response.series.ResultsItemSeries
-import com.smart.data.impl.network.models.response.stories.ResultsItemStories
 import com.smart.domain.api.DataBaseRepository
 import com.smart.domain.api.MarvelRepository
 import com.smart.domain.impl.model.character.CharacterDomainModel
-import com.smart.utils.Decorator
+import com.smart.domain.impl.model.characterDetails.ResultsItemComicsDomainModel
+import com.smart.domain.impl.model.characterDetails.ResultsItemEventsDomainModel
+import com.smart.domain.impl.model.characterDetails.ResultsItemSeriesDomainModel
+import com.smart.domain.impl.model.characterDetails.ResultsItemStoriesDomainModel
 import com.smart.utils.Result
 
 class MarvelRepositoryImpl(
@@ -16,40 +14,48 @@ class MarvelRepositoryImpl(
     private val databaseRepository: DataBaseRepository,
 ) : MarvelRepository {
 
-    private val decorator = Decorator(
-        networkSource = networkRepository,
-        databaseSource = databaseRepository
-    )
-
-    override suspend fun getCharacters(offset: Int): Result<List<CharacterDomainModel>> {
-        return when (val networkUsers = networkRepository.getCharacters(offset)) {
+    override suspend fun getCharacters(offset: Int): Result<List<CharacterDomainModel>> =
+        when (val networkResult = networkRepository.getCharacters(offset)) {
             is Result.Success -> {
-                databaseRepository.saveCharacters(networkUsers.data)
-                networkUsers
+                databaseRepository.saveCharacters(networkResult.data)
+                networkResult
             }
-            is Result.Error -> {
-                databaseRepository.getCharacters(offset)
-            }
+            is Result.Error -> databaseRepository.getCharacters(offset)
         }
-    }
 
-    override suspend fun getCharacter(id: Int): ResultsItemCharacter {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getCharacterComics(id: Int): Result<List<ResultsItemComicsDomainModel>> =
+        when (val networkResult = networkRepository.getCharacterComics(id)) {
+            is Result.Success -> {
+                databaseRepository.saveComics(networkResult.data)
+                networkResult
+            }
+            is Result.Error -> databaseRepository.getCharacterComics(id)
+        }
 
-    override suspend fun getCharacterComics(id: Int): List<ResultsItemComics> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getCharacterEvents(id: Int): Result<List<ResultsItemEventsDomainModel>> =
+        when (val networkResult = networkRepository.getCharacterEvents(id)) {
+            is Result.Success -> {
+                databaseRepository.saveEvents(networkResult.data)
+                networkResult
+            }
+            is Result.Error -> databaseRepository.getCharacterEvents(id)
+        }
 
-    override suspend fun getCharacterEvents(id: Int): List<ResultsItemEvents> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getCharacterSeries(id: Int): Result<List<ResultsItemSeriesDomainModel>> =
+        when (val networkResult = networkRepository.getCharacterSeries(id)) {
+            is Result.Success -> {
+                databaseRepository.saveSeries(networkResult.data)
+                networkResult
+            }
+            is Result.Error -> databaseRepository.getCharacterSeries(id)
+        }
 
-    override suspend fun getCharacterSeries(id: Int): List<ResultsItemSeries> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getCharacterStories(id: Int): List<ResultsItemStories> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getCharacterStories(id: Int): Result<List<ResultsItemStoriesDomainModel>> =
+        when (val networkResult = networkRepository.getCharacterStories(id)) {
+            is Result.Success -> {
+                databaseRepository.saveStories(networkResult.data)
+                networkResult
+            }
+            is Result.Error -> databaseRepository.getCharacterStories(id)
+        }
 }

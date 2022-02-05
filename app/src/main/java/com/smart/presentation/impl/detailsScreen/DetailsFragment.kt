@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.smart.R
 import com.smart.base.BaseFragment
 import com.smart.databinding.DetailsFragmentBinding
+import com.smart.domain.impl.model.character.CharacterDomainModel
 import com.smart.presentation.api.DetailsViewModel
 import com.smart.presentation.impl.detailsScreen.model.DetailsListModel
 import org.koin.core.parameter.ParametersDefinition
@@ -31,7 +32,8 @@ class DetailsFragment : BaseFragment<DetailsViewModel, DetailsFragmentBinding>()
         setHasOptionsMenu(true)
         (activity as AppCompatActivity?)?.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            title = arguments?.getString("characterName") ?: getString(R.string.title_details)
+            title = arguments?.getParcelable<CharacterDomainModel>("characterDomainModel")?.name
+                ?: getString(R.string.title_details)
         }
         binding.recyclerComics.adapter = adapterComics
         binding.recyclerEvents.adapter = adapterEvents

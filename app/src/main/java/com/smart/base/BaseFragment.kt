@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -21,9 +20,6 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewBinding> : Fragment() {
     lateinit var viewModel: VM
     lateinit var binding: VB
     private var contentView: View? = null
-
-    var backPressedCallback: OnBackPressedCallback? = null
-        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,24 +46,6 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewBinding> : Fragment() {
 
     protected fun <T> LiveData<T>.observe(block: (T) -> Unit) {
         observe(viewLifecycleOwner, { it?.let(block) })
-    }
-
-    protected fun <T> LiveData<T>.observeNulls(block: (T?) -> Unit) {
-        observe(viewLifecycleOwner, { block(it) })
-    }
-
-    fun addBackPressedCallback(callback: OnBackPressedCallback) {
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, callback)
-        backPressedCallback = callback
-    }
-
-    protected fun addBackPressedCallback(callback: () -> Unit) {
-        val onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                callback()
-            }
-        }
-        addBackPressedCallback(onBackPressedCallback)
     }
 
     @Suppress("UNCHECKED_CAST")

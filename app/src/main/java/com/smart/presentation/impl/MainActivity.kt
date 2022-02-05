@@ -22,4 +22,9 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         router.attach(binding.navHostFragment.findNavController())
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        router.detach()
+    }
 }

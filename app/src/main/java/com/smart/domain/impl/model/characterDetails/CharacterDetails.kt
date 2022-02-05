@@ -1,15 +1,11 @@
 package com.smart.domain.impl.model.characterDetails
 
-import com.smart.data.impl.network.models.response.characters.ResultsItemCharacter
-import com.smart.data.impl.network.models.response.comics.ResultsItemComics
-import com.smart.data.impl.network.models.response.events.ResultsItemEvents
-import com.smart.data.impl.network.models.response.series.ResultsItemSeries
-import com.smart.data.impl.network.models.response.stories.ResultsItemStories
+import com.smart.domain.impl.model.character.CharacterDomainModel
 
 data class CharacterDetails(
-    val character: ResultsItemCharacter,
-    val characterComics: List<ResultsItemComics>,
-    val characterEvents: List<ResultsItemEvents>,
-    val characterSeries: List<ResultsItemSeries>,
-    val characterStories: List<ResultsItemStories>,
+    val character: CharacterDomainModel,
+    val characterComics: List<ResultsItemComicsDomainModel>,
+    val characterEvents: List<ResultsItemEventsDomainModel>,
+    val characterSeries: List<ResultsItemSeriesDomainModel>,
+    val characterStories: List<ResultsItemStoriesDomainModel>,
 )

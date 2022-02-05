@@ -4,7 +4,6 @@ import com.smart.data.impl.dataBaseRepository.model.CharacterDb
 import com.smart.data.impl.network.models.response.characters.ResultsItemCharacter
 import com.smart.domain.impl.model.character.CharacterDomainModel
 
-
 fun ResultsItemCharacter.toDomain(): CharacterDomainModel = this.let {
     val path = it.thumbnail?.path ?: ""
     val extension = it.thumbnail?.extension ?: ""

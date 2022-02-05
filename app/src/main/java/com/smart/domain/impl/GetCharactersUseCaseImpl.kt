@@ -7,7 +7,7 @@ import com.smart.utils.Result
 
 class GetCharactersUseCaseImpl(
     private val repo: MarvelRepository,
-) : GetCharactersUseCase() {
+) : GetCharactersUseCase {
 
     override suspend fun execute(offset: Int): Result<List<CharacterDomainModel>> {
         return repo.getCharacters(offset)
