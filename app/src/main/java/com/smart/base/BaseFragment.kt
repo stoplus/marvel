@@ -45,7 +45,7 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewBinding> : Fragment() {
     }
 
     protected fun <T> LiveData<T>.observe(block: (T) -> Unit) {
-        observe(viewLifecycleOwner, { it?.let(block) })
+        observe(viewLifecycleOwner) { it?.let(block) }
     }
 
     @Suppress("UNCHECKED_CAST")

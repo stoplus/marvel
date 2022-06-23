@@ -9,6 +9,7 @@ import com.smart.presentation.api.Router
 import com.smart.presentation.impl.charactersScreen.model.CharacterPresentModel
 import com.smart.presentation.impl.charactersScreen.model.mapper.toPresent
 import com.smart.utils.wrap
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -28,7 +29,7 @@ class CharactersViewModelImpl(
 
     override fun getCharacters(offset: Int, resetList: Boolean) {
         if (getNewOperationJob == null || getNewOperationJob?.isCompleted == true) {
-            getNewOperationJob = viewModelScope.launch {
+            getNewOperationJob = viewModelScope.launch(Dispatchers.IO) {
                 if (resultsItemList.isNotEmpty()) {
                     showBottomLoader.postValue(true)
                 }
@@ -42,7 +43,7 @@ class CharactersViewModelImpl(
 
     private fun doError(throwable: Throwable) {
         isProgress.postValue(false)
-        showBottomLoader.value = false
+        showBottomLoader.postValue(false)
         isRefreshing.postValue(false)
         showError.postValue(Unit)
         Timber.e(throwable)
